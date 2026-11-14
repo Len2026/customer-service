@@ -8,7 +8,8 @@ ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
 
 class Settings(BaseSettings):
     database_url: str = Field(
-        "postgresql+psycopg://customer_service:customer_service@192.168.200.199:5432/customer_service",
+        # "postgresql+psycopg://customer_service:customer_service@192.168.200.199:5432/customer_service",
+        "postgresql+psycopg://customer_service:customer_service@postgres:5432/ecommerce",
         description="pgsql数据库连接")
 
     jwt_secret: str = Field("ecommerce-secret", description="jwt加密的秘钥")
@@ -28,7 +29,8 @@ class Settings(BaseSettings):
     ai_worker_max_attempts: int = Field(3, description="当前轮次重试AI Service调用次数")
     ai_worker_retry_delay_seconds: int = Field(2, description="重试延时")
 
-    redis_url: str = Field("redis://192.168.200.199:6379/0", description="Redis服务地址")
+    # redis_url: str = Field("redis://192.168.200.199:6379/0", description="Redis服务地址")
+    redis_url: str = Field("redis://redis:6379/0", description="Redis服务地址")
     realtime_worker_poll_interval_seconds: float = Field(1, description="RealTime 发布实时事件时间")
 
     model_config = SettingsConfigDict(env_file=ENV_FILE, extra="ignore")
