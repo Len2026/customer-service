@@ -1,4 +1,5 @@
 import uvicorn
+from cs.common.event_loop import run_async
 
 async def start_uvicorn():
     server = uvicorn.Server(
@@ -12,4 +13,5 @@ async def start_uvicorn():
     await server.start()
 
 if __name__ == "__main__":
-    pass
+    # uvicorn.run(app, host="0.0.0.0", port=8000).start()
+    run_async(start_uvicorn())
