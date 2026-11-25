@@ -34,7 +34,7 @@ def decode_token(access_token:str)->CurrentUser:
 
 # 加密令牌
 def encode_token(user:CurrentUser)->str:
-    # 解析jwt字符串
+    # 加密jwt字符串
     access_token = jwt.encode(user.model_dump(),key = get_settings().jwt_secret,algorithm="HS256")
 
     # 返回解析结果
