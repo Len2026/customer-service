@@ -1,7 +1,5 @@
 import uvicorn
 
-from cs.common.event_loop import run_async
-
 async def start_uvicorn():
     server = uvicorn.Server(
         config=uvicorn.Config(
