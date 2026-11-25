@@ -6,7 +6,7 @@ from sqlalchemy import String
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
-from atguigu.common.settings import get_settings
+from cs.common.settings import get_settings
 
 # 引擎实例
 engin = create_async_engine(
@@ -20,14 +20,14 @@ sessionLocal = async_sessionmaker(
 )
 
 
-class Base(DeclarativeBase):
+class Base(DeclarativeBase):    # 数据库映射基类，自动数据库映射
     print("根据需求加入一些关于数据库映射的基类的配置")
     pass
 
 
 class User(Base):
     __tablename__ = "users"
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)   # 类型注解
     name: Mapped[str] = mapped_column(String(50))
     age: Mapped[int] = mapped_column(default=10)
 

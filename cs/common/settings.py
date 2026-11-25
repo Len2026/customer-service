@@ -8,14 +8,13 @@ ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
 
 class Settings(BaseSettings):
     database_url: str = Field(
-        # "postgresql+psycopg://customer_service:customer_service@192.168.200.199:5432/customer_service",
-        "postgresql+psycopg://customer_service:customer_service@postgres:5432/ecommerce",
+        "postgresql+psycopg://customer_service:customer_service@postgres:5432/customer_service",
         description="pgsql数据库连接")
 
     jwt_secret: str = Field("ecommerce-secret", description="jwt加密的秘钥")
     jwt_algorithm: str = Field("HS256", description="jwt加密的算法")
     api_host: str = Field("localhost", description="访域名限制")
-    api_port: int = Field(8001, description="服务端口")
+    api_port: int = Field(8000, description="服务端口")
     cors_origins: list[str] = Field(
         ["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5174", "http://127.0.0.1:5174"],
         description="限制请求域白名单")
@@ -33,7 +32,7 @@ class Settings(BaseSettings):
     redis_url: str = Field("redis://redis:6379/0", description="Redis服务地址")
     realtime_worker_poll_interval_seconds: float = Field(1, description="RealTime 发布实时事件时间")
 
-    model_config = SettingsConfigDict(env_file=ENV_FILE, extra="ignore")
+    model_config = SettingsConfigDict(env_file =ENV_FILE, extra="ignore")
 
 
 @lru_cache  # ["方法对象","方法返回值"]

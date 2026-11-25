@@ -3,6 +3,7 @@ from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine, AsyncSession, async_sessionmaker
 from cs.common.settings import get_settings
 
+# 链接引擎
 async_engine:AsyncEngine = create_async_engine(
     url = get_settings().database_url,
     echo = True,
@@ -29,7 +30,7 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
 # 测试
 if __name__ == '__main__':
     engine = create_async_engine(
-        "postgresql+psycopg://customer_service:customer_service@192.168.222.66:5432/customer_service")
+        "postgresql+psycopg://customer_service:customer_service@192.168.200.128:5432/customer_service")
     print(engine.name)
     session = get_async_session()
     print(session)

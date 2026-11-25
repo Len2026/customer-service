@@ -1,16 +1,16 @@
-from datetime import datetime  # 导入 datetime 类型，用于定义时间字段的类型注解
-from typing import Any  # 导入 Any，用于表示 JSON 内容里任意类型的值
+from datetime import datetime
+from typing import Any
 
-from sqlalchemy import DateTime, ForeignKey, Index, Integer, String, text, Text  # 导入列类型、外键、索引、原生 SQL 片段等 SQLAlchemy 组件
-from sqlalchemy.dialects.postgresql import JSONB  # 导入 PostgreSQL 专有的 JSONB 类型，用于存结构化 JSON 数据
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column  # 导入声明式基类与 2.0 风格的 ORM 列声明工具
+from sqlalchemy import DateTime, ForeignKey, Index, Integer, String, text, Text
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
-from cs.common.utils import get_uid, get_utcnow  # 导入工具函数：生成带前缀的唯一 ID、获取 UTC 当前时间
-from cs.app.models.enums import ConversationMode, TurnStatus, HandoffStatus  # 导入各表字段使用的枚举默认值
+from cs.common.utils import get_uid, get_utcnow
+from cs.app.models.enums import ConversationMode, TurnStatus, HandoffStatus
 
 
 class Base(DeclarativeBase):  # 所有 ORM 模型的声明式基类，SQLAlchemy 通过它收集元数据
-    pass  # 无额外逻辑，仅作为基类占位
+    pass
 
 
 class Conversation(Base):  # 会话表模型：一条记录代表一个用户与客服（AI/人工）的一次会话
@@ -21,8 +21,8 @@ class Conversation(Base):  # 会话表模型：一条记录代表一个用户与
             "user_id",  # 作用于 user_id 列
             unique=True,  # 唯一约束
             postgresql_where=text("mode IN ('AI', 'QUEUED', 'HUMAN')"),  # 同一个用户会话模式是有效的只能有一个 但是有效的某一个可以和关闭的会话模式共存
-        ),  # 部分索引定义结束
-    )  # 表参数定义结束
+        ),
+    )
 
     id: Mapped[str] = mapped_column(String(80), primary_key=True, default=lambda: get_uid("conv"))  # 主键，形如 conv_xxx 的字符串，默认自动生成
     user_id: Mapped[str] = mapped_column(String(40), index=True)  # 会话所属用户的 ID，建普通索引便于按用户查询
@@ -73,7 +73,7 @@ class RealtimeEvent(Base):  # 实时事件表模型：落库待推送的实时�
     published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), index=True)  # 实际推送成功时间，为 NULL 表示尚未发送，建索引便于扫描待推送事件
 
 
-class Handoff(Base):  # 人工转接工单表模型：记录一次从 AI 转人工的服务请求
+class Handoff(Base):
     """记录一次人工客服工单及其处理状态。"""
 
     __tablename__ = "handoffs"  # 指定数据库表名为 handoffs
