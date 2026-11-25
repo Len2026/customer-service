@@ -1,7 +1,5 @@
 from http.client import HTTPException
-
 import jwt
-
 from cs.app.schemas import CurrentUser
 from cs.common.settings import get_settings
 
@@ -28,7 +26,6 @@ def decode_token(access_token):
     user_info_dict = jwt.decode(access_token,key = get_settings().jwt_secret,algorithms=["HS256"])
     # 返回解析结果
     return CurrentUser.model_validate(user_info_dict)
-
 
 # 加密令牌
 def decode_token(user: CurrentUser) -> str:
